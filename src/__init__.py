@@ -1,1 +1,2 @@
-from .basic import *
+from .classes import *
+from .operators import *

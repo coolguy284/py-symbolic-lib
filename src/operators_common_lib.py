@@ -1,4 +1,4 @@
-from . import basic
+from . import classes
 
 operator_valid_types = None
 
@@ -6,16 +6,16 @@ def _operator_get_valid_types():
   global operator_valid_types
   
   if operator_valid_types is None:
-    operator_valid_types = basic.integer, basic.variable, basic.additive_group, basic.multiplicative_group, basic.fraction, basic.exponential
+    operator_valid_types = classes.integer, classes.variable, classes.additive_group, classes.multiplicative_group, classes.fraction, classes.exponential
   
   return operator_valid_types
 
 def _operator_conversion_to_symbolic_type(object_one, object_two):
   if not isinstance(object_one, _operator_get_valid_types()):
-    object_one = basic.attempt_conversion_to_symbolic_type(object_one)
+    object_one = classes.attempt_conversion_to_symbolic_type(object_one)
   
   if not isinstance(object_two, _operator_get_valid_types()):
-    object_two = basic.attempt_conversion_to_symbolic_type(object_two)
+    object_two = classes.attempt_conversion_to_symbolic_type(object_two)
   
   return object_one, object_two
 

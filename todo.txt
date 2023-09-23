@@ -1,2 +1,4 @@
 main items:
 add relational operators
+convert most star imports to more specific
+add proper annotated types
