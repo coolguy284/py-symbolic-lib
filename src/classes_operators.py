@@ -1,7 +1,8 @@
 from .classes_common_lib import full_symbolic_class_decoration
+from .classes_base import symbolic_operator
 
 @full_symbolic_class_decoration
-class additive_group:
+class additive_group(symbolic_operator):
   '''
     py-symbolic-lib: additive_group
     
@@ -33,14 +34,14 @@ class additive_group:
   def get_items(self):
     return self.elements
   
-  def hash(self):
-    return hash(('additive_group', self.elements))
+  def get_hashable_form(self):
+    return 'additive_group', self.elements
   
   def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
 
 @full_symbolic_class_decoration
-class multiplicative_group:
+class multiplicative_group(symbolic_operator):
   '''
     py-symbolic-lib: multiplicative_group
     
@@ -72,14 +73,14 @@ class multiplicative_group:
   def get_items(self):
     return self.elements
   
-  def hash(self):
-    return hash(('multiplicative_group', self.elements))
+  def get_hashable_form(self):
+    return 'multiplicative_group', self.elements
   
   def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
 
 @full_symbolic_class_decoration
-class fraction:
+class fraction(symbolic_operator):
   '''
     py-symbolic-lib: fraction
     
@@ -112,14 +113,14 @@ class fraction:
   def get_values(self):
     return self.numerator, self.denominator
   
-  def hash(self):
-    return hash(('fraction', self.numerator, self.denominator))
+  def get_hashable_form(self):
+    return 'fraction', self.numerator, self.denominator
   
   def __new__(cls, numerator, denominator):
     return cls.from_values(numerator, denominator)
 
 @full_symbolic_class_decoration
-class exponential:
+class exponential(symbolic_operator):
   '''
     py-symbolic-lib: exponential
     
@@ -152,8 +153,8 @@ class exponential:
   def get_values(self):
     return self.base, self.exponent
   
-  def hash(self):
-    return hash(('fraction', self.base, self.exponent))
+  def get_hashable_form(self):
+    return 'exponential', self.base, self.exponent
   
   def __new__(cls, base, exponent):
     return cls.from_values(base, exponent)

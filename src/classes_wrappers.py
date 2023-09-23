@@ -1,7 +1,8 @@
 from .classes_common_lib import full_symbolic_class_decoration
+from .classes_base import symbolic_wrapper
 
 @full_symbolic_class_decoration
-class integer:
+class integer(symbolic_wrapper):
   '''
     py-symbolic-lib: integer class
     
@@ -30,8 +31,8 @@ class integer:
   def get_value(self):
     return self.value
   
-  def hash(self):
-    return hash(('integer', self.value))
+  def get_hashable_form(self):
+    return 'integer', self.value
   
   def __new__(cls, value: int):
     return cls.from_integer(value)

@@ -19,3 +19,6 @@ print_all_representations(x * y - z)
 print_all_representations(x**2 - 2 * x - 4)
 print_all_representations(2**x**2 - 2)
 print_all_representations((2 * x + 1) / (y - 4))
+
+print(x is x)
+print(variables.x is variables.x)

@@ -1,7 +1,8 @@
 from .classes_common_lib import full_symbolic_class_decoration
+from .classes_base import symbolic_basic
 
 @full_symbolic_class_decoration
-class variable:
+class variable(symbolic_basic):
   '''
     py-symbolic-lib: variable class
     
@@ -30,8 +31,8 @@ class variable:
   def get_item(self):
     return self.variable_name
   
-  def hash(self):
-    return hash(('variable', self.variable_name))
+  def get_hashable_form(self):
+    return 'variable', self.variable_name
   
   def __new__(cls, variable_name: str):
     return cls.from_string(variable_name)

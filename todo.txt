@@ -2,3 +2,5 @@ main items:
 add relational operators
 convert most star imports to more specific
 add proper annotated types
+make the from_ methods memoized as well, using a raw creation version
+fix adding parenthesis around fractions printing if num or denom is more than 1 element long
