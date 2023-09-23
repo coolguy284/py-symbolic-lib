@@ -82,6 +82,8 @@ def _operator_left_maker(operator_func):
     
     return operator_func(object_one, object_two)
   
+  #operator_func_processed.__name__ = 'operator_left_' + '_'.join(operator_func.__name__.split('_')[1:])
+  
   return operator_func_processed
 
 operator_left_add = _operator_left_maker(operator_add)

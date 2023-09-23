@@ -11,9 +11,13 @@ def full_symbolic_class_decoration(cls):
   
   if not hasattr(cls, 'to_string_latex'):
     raise Exception(f'to_string_latex not found on class {cls.__name__}')
+    
+  if not hasattr(cls, 'hash'):
+    raise Exception(f'hash not found on class {cls.__name__}')
   
   cls.__repr__ = cls.to_string_repr
   cls.__str__ = cls.to_string_basic_textual
+  cls.__hash__ = cls.hash
   
   return cls
 
@@ -51,6 +55,9 @@ class integer:
   def get_value(self):
     return self.value
   
+  def hash(self):
+    return hash(('integer', self.value))
+  
   def __new__(cls, value: int) -> integer:
     return cls.from_integer(value)
 
@@ -85,6 +92,9 @@ class variable:
   
   def get_item(self):
     return self.variable_name
+  
+  def hash(self):
+    return hash(('variable', self.variable_name))
   
   def __new__(cls, variable_name: str) -> variable:
     return cls.from_string(variable_name)
@@ -149,6 +159,9 @@ class additive_group:
   def get_items(self):
     return self.elements
   
+  def hash(self):
+    return hash(('additive_group', self.elements))
+  
   def __new__(cls, *iterable) -> additive_group:
     return cls.from_iterable(iterable)
 
@@ -186,6 +199,9 @@ class multiplicative_group:
   
   def get_items(self):
     return self.elements
+  
+  def hash(self):
+    return hash(('multiplicative_group', self.elements))
   
   def __new__(cls, *iterable) -> multiplicative_group:
     return cls.from_iterable(iterable)
@@ -226,6 +242,9 @@ class fraction:
   def get_values(self):
     return self.numerator, self.denominator
   
+  def hash(self):
+    return hash(('fraction', self.numerator, self.denominator))
+  
   def __new__(cls, numerator, denominator) -> fraction:
     return cls.from_values(numerator, denominator)
 
@@ -264,6 +283,9 @@ class exponential:
   
   def get_values(self):
     return self.base, self.exponent
+  
+  def hash(self):
+    return hash(('fraction', self.base, self.exponent))
   
   def __new__(cls, base, exponent) -> exponential:
     return cls.from_values(base, exponent)
