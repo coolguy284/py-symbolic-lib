@@ -1,2 +1,2 @@
 main items:
-__hash__
+add relational operators
