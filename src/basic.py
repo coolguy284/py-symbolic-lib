@@ -21,10 +21,6 @@ def full_symbolic_class_decoration(cls):
   
   return cls
 
-# class names are initially empty variable so the type annotation is happier, this is done for all the classes that need it
-
-integer = None
-
 @full_symbolic_class_decoration
 class integer:
   '''
@@ -36,7 +32,7 @@ class integer:
   __slots__ = 'value',
   
   @classmethod
-  def from_integer(cls, value: int) -> integer:
+  def from_integer(cls, value: int):
     integer_object = super(integer, cls).__new__(cls)
     
     integer_object.value = value
@@ -58,10 +54,8 @@ class integer:
   def hash(self):
     return hash(('integer', self.value))
   
-  def __new__(cls, value: int) -> integer:
+  def __new__(cls, value: int):
     return cls.from_integer(value)
-
-variable = None
 
 @full_symbolic_class_decoration
 class variable:
@@ -74,7 +68,7 @@ class variable:
   __slots__ = 'variable_name',
   
   @classmethod
-  def from_string(cls, variable_name: str) -> variable:
+  def from_string(cls, variable_name: str):
     variable_object = super(variable, cls).__new__(cls)
     
     variable_object.variable_name = variable_name
@@ -96,7 +90,7 @@ class variable:
   def hash(self):
     return hash(('variable', self.variable_name))
   
-  def __new__(cls, variable_name: str) -> variable:
+  def __new__(cls, variable_name: str):
     return cls.from_string(variable_name)
 
 class variables_factory:
@@ -124,8 +118,6 @@ class variables_factory:
 
 variables = variables_factory()
 
-additive_group = None
-
 @full_symbolic_class_decoration
 class additive_group:
   '''
@@ -140,7 +132,7 @@ class additive_group:
   __slots__ = 'elements',
   
   @classmethod
-  def from_iterable(cls, iterable) -> additive_group:
+  def from_iterable(cls, iterable):
     additive_group_object = super(additive_group, cls).__new__(cls)
     
     additive_group_object.elements = tuple(iterable)
@@ -162,10 +154,8 @@ class additive_group:
   def hash(self):
     return hash(('additive_group', self.elements))
   
-  def __new__(cls, *iterable) -> additive_group:
+  def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
-
-multiplicative_group = None
 
 @full_symbolic_class_decoration
 class multiplicative_group:
@@ -181,7 +171,7 @@ class multiplicative_group:
   __slots__ = 'elements',
   
   @classmethod
-  def from_iterable(cls, iterable) -> multiplicative_group:
+  def from_iterable(cls, iterable):
     multiplicative_group_object = super(multiplicative_group, cls).__new__(cls)
     
     multiplicative_group_object.elements = tuple(iterable)
@@ -203,10 +193,8 @@ class multiplicative_group:
   def hash(self):
     return hash(('multiplicative_group', self.elements))
   
-  def __new__(cls, *iterable) -> multiplicative_group:
+  def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
-
-fraction = None
 
 @full_symbolic_class_decoration
 class fraction:
@@ -222,7 +210,7 @@ class fraction:
   __slots__ = 'numerator', 'denominator'
   
   @classmethod
-  def from_values(cls, numerator, denominator) -> fraction:
+  def from_values(cls, numerator, denominator):
     fraction_object = super(fraction, cls).__new__(cls)
     
     fraction_object.numerator = numerator
@@ -245,10 +233,8 @@ class fraction:
   def hash(self):
     return hash(('fraction', self.numerator, self.denominator))
   
-  def __new__(cls, numerator, denominator) -> fraction:
+  def __new__(cls, numerator, denominator):
     return cls.from_values(numerator, denominator)
-
-exponential = None
 
 @full_symbolic_class_decoration
 class exponential:
@@ -264,7 +250,7 @@ class exponential:
   __slots__ = 'base', 'exponent'
   
   @classmethod
-  def from_values(cls, base, exponent) -> exponential:
+  def from_values(cls, base, exponent):
     exponential_object = super(exponential, cls).__new__(cls)
     
     exponential_object.base = base
@@ -287,7 +273,7 @@ class exponential:
   def hash(self):
     return hash(('fraction', self.base, self.exponent))
   
-  def __new__(cls, base, exponent) -> exponential:
+  def __new__(cls, base, exponent):
     return cls.from_values(base, exponent)
 
 def attempt_conversion_to_symbolic_type(value):
