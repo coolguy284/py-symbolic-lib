@@ -6,7 +6,7 @@ def operator_get_valid_types():
   global operator_valid_types
   
   if operator_valid_types is None:
-    operator_valid_types = basic.integer, basic.variable, basic.additive_group, basic.multiplicative_group, basic.exponential
+    operator_valid_types = basic.integer, basic.variable, basic.additive_group, basic.multiplicative_group, basic.fraction, basic.exponential
   
   return operator_valid_types
 
@@ -54,6 +54,13 @@ def operator_mul(object_one, object_two):
     else:
       return basic.multiplicative_group(object_one, object_two)
 
+def operator_div(object_one, object_two):
+  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  if object_one is NotImplemented or object_two is NotImplemented:
+    return NotImplemented
+  
+  return basic.fraction(object_one, object_two)
+
 def operator_pow(object_one, object_two):
   object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
   if object_one is NotImplemented or object_two is NotImplemented:
@@ -67,33 +74,21 @@ def operator_identity(object_one):
 def operator_unary_minus(object_one):
   return -1 * object_one
 
-def operator_left_add(object_two, object_one):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
-  if object_one is NotImplemented or object_two is NotImplemented:
-    return NotImplemented
+def _operator_left_maker(operator_func):
+  def operator_func_processed(object_two, object_one):
+    object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+    if object_one is NotImplemented or object_two is NotImplemented:
+      return NotImplemented
+    
+    return operator_func(object_one, object_two)
   
-  return object_one + object_two
+  return operator_func_processed
 
-def operator_left_sub(object_two, object_one):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
-  if object_one is NotImplemented or object_two is NotImplemented:
-    return NotImplemented
-  
-  return object_one - object_two
-
-def operator_left_mul(object_two, object_one):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
-  if object_one is NotImplemented or object_two is NotImplemented:
-    return NotImplemented
-  
-  return object_one * object_two
-
-def operator_left_pow(object_two, object_one):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
-  if object_one is NotImplemented or object_two is NotImplemented:
-    return NotImplemented
-  
-  return object_one ** object_two
+operator_left_add = _operator_left_maker(operator_add)
+operator_left_sub = _operator_left_maker(operator_sub)
+operator_left_mul = _operator_left_maker(operator_mul)
+operator_left_div = _operator_left_maker(operator_div)
+operator_left_pow = _operator_left_maker(operator_pow)
 
 def add_operators_to_class(cls):
   cls.identity = operator_identity
@@ -105,6 +100,8 @@ def add_operators_to_class(cls):
   cls.add = operator_add
   cls.sub = operator_sub
   cls.mul = operator_mul
+  cls.div = operator_div
+  cls.truediv = operator_div
   cls.pow = operator_pow
   
   cls.__pos__ = operator_identity
@@ -113,11 +110,13 @@ def add_operators_to_class(cls):
   cls.__add__ = operator_add
   cls.__sub__ = operator_sub
   cls.__mul__ = operator_mul
+  cls.__truediv__ = operator_div
   cls.__pow__ = operator_pow
   
   cls.__radd__ = operator_left_add
   cls.__rsub__ = operator_left_sub
   cls.__rmul__ = operator_left_mul
+  cls.__rtruediv__ = operator_left_div
   cls.__rpow__ = operator_left_pow
   
   return cls
