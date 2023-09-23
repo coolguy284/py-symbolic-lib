@@ -144,7 +144,7 @@ class additive_group:
     return ' + '.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
   
   def to_string_latex(self):
-    return '+'.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
+    return '+'.join(map(lambda x: x.to_string_latex(), self.get_items()))
   
   def get_items(self):
     return self.elements
@@ -182,13 +182,52 @@ class multiplicative_group:
     return ' * '.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
   
   def to_string_latex(self):
-    return '\cdot'.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
+    return '\cdot '.join(map(lambda x: x.to_string_latex(), self.get_items()))
   
   def get_items(self):
     return self.elements
   
   def __new__(cls, *iterable) -> multiplicative_group:
     return cls.from_iterable(iterable)
+
+exponential = None
+
+@full_symbolic_class_decoration
+class exponential:
+  '''
+    py-symbolic-lib: exponential
+    
+    This class is to handle a base raised to a power, like so:
+    
+    >>> variables.x ^ variables.y
+    exponential(variable('x'), variable('y'))
+  '''
+  
+  __slots__ = 'base', 'exponent'
+  
+  @classmethod
+  def from_values(cls, base, exponent) -> exponential:
+    exponential_object = super(exponential, cls).__new__(cls)
+    
+    exponential_object.base = base
+    exponential_object.exponent = exponent
+    
+    return exponential_object
+  
+  def to_string_repr(self):
+    return f'exponential({self.base.to_string_repr()}, {self.exponent.to_string_repr()})'
+  
+  def to_string_basic_textual(self):
+    return f'{self.base.to_string_basic_textual()}^{self.exponent.to_string_basic_textual()}'
+  
+  def to_string_latex(self):
+    return f'{self.base.to_string_latex()}^{{{self.exponent.to_string_latex()}}}'
+  
+  def get_items(self):
+    return self.elements
+  
+  def __new__(cls, base, exponent) -> exponential:
+    return cls.from_values(base, exponent)
 
 def attempt_conversion_to_symbolic_type(value):
   if isinstance(value, int):

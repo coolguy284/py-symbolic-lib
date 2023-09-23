@@ -6,7 +6,7 @@ def operator_get_valid_types():
   global operator_valid_types
   
   if operator_valid_types is None:
-    operator_valid_types = basic.integer, basic.variable, basic.additive_group, basic.multiplicative_group
+    operator_valid_types = basic.integer, basic.variable, basic.additive_group, basic.multiplicative_group, basic.exponential
   
   return operator_valid_types
 
@@ -54,6 +54,16 @@ def operator_mul(object_one, object_two):
     else:
       return basic.multiplicative_group(object_one, object_two)
 
+def operator_pow(object_one, object_two):
+  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  if object_one is NotImplemented or object_two is NotImplemented:
+    return NotImplemented
+  
+  return basic.exponential(object_one, object_two)
+
+def operator_identity(object_one):
+  return object_one
+
 def operator_unary_minus(object_one):
   return -1 * object_one
 
@@ -78,14 +88,36 @@ def operator_left_mul(object_two, object_one):
   
   return object_one * object_two
 
+def operator_left_pow(object_two, object_one):
+  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  if object_one is NotImplemented or object_two is NotImplemented:
+    return NotImplemented
+  
+  return object_one ** object_two
+
 def add_operators_to_class(cls):
+  cls.identity = operator_identity
+  cls.unary_plus = operator_identity
+  cls.pos = operator_identity
+  cls.unary_minus = operator_unary_minus
+  cls.neg = operator_unary_minus
+  
+  cls.add = operator_add
+  cls.sub = operator_sub
+  cls.mul = operator_mul
+  cls.pow = operator_pow
+  
+  cls.__pos__ = operator_identity
+  cls.__neg__ = operator_unary_minus
+  
   cls.__add__ = operator_add
   cls.__sub__ = operator_sub
   cls.__mul__ = operator_mul
-  cls.__neg__ = operator_unary_minus
+  cls.__pow__ = operator_pow
   
   cls.__radd__ = operator_left_add
   cls.__rsub__ = operator_left_sub
   cls.__rmul__ = operator_left_mul
+  cls.__rpow__ = operator_left_pow
   
   return cls
