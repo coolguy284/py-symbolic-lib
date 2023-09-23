@@ -1,1 +1,2 @@
+main items:
 __hash__

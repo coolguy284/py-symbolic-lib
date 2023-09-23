@@ -9,12 +9,51 @@ def full_symbolic_class_decoration(cls):
   if not hasattr(cls, 'to_string_basic_textual'):
     raise Exception(f'to_string_basic_textual not found on class {cls.__name__}')
   
+  if not hasattr(cls, 'to_string_latex'):
+    raise Exception(f'to_string_latex not found on class {cls.__name__}')
+  
   cls.__repr__ = cls.to_string_repr
   cls.__str__ = cls.to_string_basic_textual
   
   return cls
 
-# creating an empty variable so the type annotation is happier, this is done for all the classes that need it
+# class names are initially empty variable so the type annotation is happier, this is done for all the classes that need it
+
+integer = None
+
+@full_symbolic_class_decoration
+class integer:
+  '''
+    py-symbolic-lib: integer class
+    
+    This class is a passthrough class for integers.
+  '''
+  
+  __slots__ = 'value',
+  
+  @classmethod
+  def from_integer(cls, value: int) -> integer:
+    integer_object = super(integer, cls).__new__(cls)
+    
+    integer_object.value = value
+    
+    return integer_object
+  
+  def to_string_repr(self):
+    return f'integer({self.value})'
+  
+  def to_string_basic_textual(self):
+    return repr(self.value)
+  
+  def to_string_latex(self):
+    return repr(self.value)
+  
+  def get_value(self):
+    return self.value
+  
+  def __new__(cls, value: int) -> integer:
+    return cls.from_integer(value)
+
 variable = None
 
 @full_symbolic_class_decoration
@@ -39,6 +78,9 @@ class variable:
     return f'variable(\'{self.variable_name}\')'
   
   def to_string_basic_textual(self):
+    return self.variable_name
+  
+  def to_string_latex(self):
     return self.variable_name
   
   def get_item(self):
@@ -101,8 +143,55 @@ class additive_group:
   def to_string_basic_textual(self):
     return ' + '.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
   
+  def to_string_latex(self):
+    return '+'.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
+  
   def get_items(self):
     return self.elements
   
   def __new__(cls, *iterable) -> additive_group:
     return cls.from_iterable(iterable)
+
+multiplicative_group = None
+
+@full_symbolic_class_decoration
+class multiplicative_group:
+  '''
+    py-symbolic-lib: multiplicative_group
+    
+    This class is to handle many symbols / expressions multiplied together, like so:
+    
+    >>> variables.x * variables.y
+    multiplicative_group(variable('x'), variable('y'))
+  '''
+  
+  __slots__ = 'elements',
+  
+  @classmethod
+  def from_iterable(cls, iterable) -> multiplicative_group:
+    multiplicative_group_object = super(multiplicative_group, cls).__new__(cls)
+    
+    multiplicative_group_object.elements = tuple(iterable)
+    
+    return multiplicative_group_object
+  
+  def to_string_repr(self):
+    return 'multiplicative_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
+  
+  def to_string_basic_textual(self):
+    return ' * '.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
+  
+  def to_string_latex(self):
+    return '\cdot'.join(map(lambda x: x.to_string_basic_textual(), self.get_items()))
+  
+  def get_items(self):
+    return self.elements
+  
+  def __new__(cls, *iterable) -> multiplicative_group:
+    return cls.from_iterable(iterable)
+
+def attempt_conversion_to_symbolic_type(value):
+  if isinstance(value, int):
+    return integer(value)
+  
+  return NotImplemented
