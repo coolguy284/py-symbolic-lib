@@ -1,5 +1,4 @@
 main items:
-make the from_ methods memoized as well, using a raw creation version
 textual representation for additive group should automatically put a minus instead of a plus if the element is a unary minus, but make this behavior an optional argument defaulting to true
 add substitute function, as function for each class, to substitute a variable for something else
 add relational operators
@@ -13,4 +12,4 @@ low priority:
 convert most star imports to more specific
 add proper annotated types
 remove check for required methods if debug mode not on
-
+clean up class creation functions

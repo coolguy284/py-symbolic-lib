@@ -12,12 +12,16 @@ class integer(symbolic_wrapper):
   __slots__ = 'value',
   
   @classmethod
-  def from_integer(cls, value: int):
+  def _raw_from_integer(cls, value: int):
     integer_object = super(integer, cls).__new__(cls)
     
     integer_object.value = value
     
     return integer_object
+  
+  @classmethod
+  def from_integer(cls, value: str):
+    return cls.__new__(cls, value)
   
   def to_string_repr(self):
     return f'integer({self.value})'
@@ -38,4 +42,4 @@ class integer(symbolic_wrapper):
     return 'integer', self.value
   
   def __new__(cls, value: int):
-    return cls.from_integer(value)
+    return cls._raw_from_integer(value)

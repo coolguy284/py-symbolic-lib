@@ -12,12 +12,16 @@ class variable(symbolic_basic):
   __slots__ = 'variable_name',
   
   @classmethod
-  def from_string(cls, variable_name: str):
+  def _raw_from_string(cls, variable_name: str):
     variable_object = super(variable, cls).__new__(cls)
     
     variable_object.variable_name = variable_name
     
     return variable_object
+  
+  @classmethod
+  def from_string(cls, variable_name: str):
+    return cls.__new__(cls, variable_name)
   
   def to_string_repr(self):
     return f'variable(\'{self.variable_name}\')'
@@ -38,7 +42,7 @@ class variable(symbolic_basic):
     return 'variable', self.variable_name
   
   def __new__(cls, variable_name: str):
-    return cls.from_string(variable_name)
+    return cls._raw_from_string(variable_name)
 
 class variables_factory:
   '''

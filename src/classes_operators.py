@@ -16,12 +16,16 @@ class additive_group(symbolic_operator):
   __slots__ = 'elements',
   
   @classmethod
-  def from_iterable(cls, iterable):
+  def _raw_from_iterable(cls, iterable):
     additive_group_object = super(additive_group, cls).__new__(cls)
     
     additive_group_object.elements = tuple(iterable)
     
     return additive_group_object
+  
+  @classmethod
+  def from_iterable(cls, iterable):
+    return cls.__new__(cls, iterable)
   
   def to_string_repr(self):
     return 'additive_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
@@ -51,7 +55,7 @@ class additive_group(symbolic_operator):
     return 'additive_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
   
   def __new__(cls, *iterable):
-    return cls.from_iterable(iterable)
+    return cls._raw_from_iterable(iterable)
 
 @full_symbolic_class_decoration
 class multiplicative_group(symbolic_operator):
@@ -67,12 +71,16 @@ class multiplicative_group(symbolic_operator):
   __slots__ = 'elements',
   
   @classmethod
-  def from_iterable(cls, iterable):
+  def _raw_from_iterable(cls, iterable):
     multiplicative_group_object = super(multiplicative_group, cls).__new__(cls)
     
     multiplicative_group_object.elements = tuple(iterable)
     
     return multiplicative_group_object
+  
+  @classmethod
+  def from_iterable(cls, iterable):
+    return cls.__new__(cls, iterable)
   
   def to_string_repr(self):
     return 'multiplicative_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
@@ -102,7 +110,7 @@ class multiplicative_group(symbolic_operator):
     return 'multiplicative_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
   
   def __new__(cls, *iterable):
-    return cls.from_iterable(iterable)
+    return cls._raw_from_iterable(iterable)
 
 @full_symbolic_class_decoration
 class unary_minus(symbolic_operator):
@@ -118,12 +126,16 @@ class unary_minus(symbolic_operator):
   __slots__ = 'element',
   
   @classmethod
-  def from_value(cls, element):
+  def _raw_from_value(cls, element):
     unary_minus_object = super(unary_minus, cls).__new__(cls)
     
     unary_minus_object.element = element
     
     return unary_minus_object
+  
+  @classmethod
+  def from_value(cls, element):
+    return cls.__new__(cls, element)
   
   def to_string_repr(self):
     return f'unary_minus({self.element.to_string_repr()})'
@@ -144,7 +156,7 @@ class unary_minus(symbolic_operator):
     return 'unary_minus', self.element.get_hashable_form()
   
   def __new__(cls, element):
-    return cls.from_value(element)
+    return cls._raw_from_value(element)
 
 @full_symbolic_class_decoration
 class fraction(symbolic_operator):
@@ -160,13 +172,17 @@ class fraction(symbolic_operator):
   __slots__ = 'numerator', 'denominator'
   
   @classmethod
-  def from_values(cls, numerator, denominator):
+  def _raw_from_values(cls, numerator, denominator):
     fraction_object = super(fraction, cls).__new__(cls)
     
     fraction_object.numerator = numerator
     fraction_object.denominator = denominator
     
     return fraction_object
+  
+  @classmethod
+  def from_values(cls, numerator, denominator):
+    return cls.__new__(cls, numerator, denominator)
   
   def to_string_repr(self):
     return f'fraction({self.numerator.to_string_repr()}, {self.denominator.to_string_repr()})'
@@ -192,7 +208,7 @@ class fraction(symbolic_operator):
     return 'fraction', self.numerator.get_hashable_form(), self.denominator.get_hashable_form()
   
   def __new__(cls, numerator, denominator):
-    return cls.from_values(numerator, denominator)
+    return cls._raw_from_values(numerator, denominator)
 
 @full_symbolic_class_decoration
 class exponential(symbolic_operator):
@@ -208,13 +224,17 @@ class exponential(symbolic_operator):
   __slots__ = 'base', 'exponent'
   
   @classmethod
-  def from_values(cls, base, exponent):
+  def _raw_from_values(cls, base, exponent):
     exponential_object = super(exponential, cls).__new__(cls)
     
     exponential_object.base = base
     exponential_object.exponent = exponent
     
     return exponential_object
+  
+  @classmethod
+  def from_values(cls, base, exponent):
+    return cls.__new__(cls, base, exponent)
   
   def to_string_repr(self):
     return f'exponential({self.base.to_string_repr()}, {self.exponent.to_string_repr()})'
@@ -241,4 +261,4 @@ class exponential(symbolic_operator):
     return 'exponential', self.base.get_hashable_form(), self.exponent.get_hashable_form()
   
   def __new__(cls, base, exponent):
-    return cls.from_values(base, exponent)
+    return cls._raw_from_values(base, exponent)
