@@ -1,9 +1,9 @@
 from . import classes
 
-from .operators_common_lib import _operator_conversion_to_symbolic_type, _operator_left_maker
+from .operators_common_lib import _operator_conversion_to_symbolic_type_single, _operator_conversion_to_symbolic_type_multiple, _operator_left_maker
 
 def operator_add(object_one, object_two):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
   if object_one is NotImplemented or object_two is NotImplemented:
     return NotImplemented
   
@@ -22,7 +22,7 @@ def operator_sub(object_one, object_two):
   return object_one + -object_two
 
 def operator_mul(object_one, object_two):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
   if object_one is NotImplemented or object_two is NotImplemented:
     return NotImplemented
   
@@ -38,14 +38,14 @@ def operator_mul(object_one, object_two):
       return classes.multiplicative_group(object_one, object_two)
 
 def operator_div(object_one, object_two):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
   if object_one is NotImplemented or object_two is NotImplemented:
     return NotImplemented
   
   return classes.fraction(object_one, object_two)
 
 def operator_pow(object_one, object_two):
-  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
   if object_one is NotImplemented or object_two is NotImplemented:
     return NotImplemented
   
@@ -55,45 +55,49 @@ def operator_identity(object_one):
   return object_one
 
 def operator_unary_minus(object_one):
-  return -1 * object_one
+  object_one = _operator_conversion_to_symbolic_type_single(object_one)
+  if object_one is NotImplemented:
+    return NotImplemented
+  
+  return classes.unary_minus(object_one)
 
 #def operator_equal(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  
 #  return classes.equal(object_one, object_two)
 #
 #def operator_not_equal(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  
 #  return classes.not_equal(object_one, object_two)
 #
 #def operator_greater_than(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  
 #  return classes.greater_than(object_one, object_two)
 #
 #def operator_less_than(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  
 #  return classes.less_than(object_one, object_two)
 #
 #def operator_greater_than_or_equal(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  
 #  return classes.greater_than_or_equal(object_one, object_two)
 #
 #def operator_less_than_or_equal(object_one, object_two):
-#  object_one, object_two = _operator_conversion_to_symbolic_type(object_one, object_two)
+#  object_one, object_two = _operator_conversion_to_symbolic_type_multiple(object_one, object_two)
 #  if object_one is NotImplemented or object_two is NotImplemented:
 #    return NotImplemented
 #  

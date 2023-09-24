@@ -1,5 +1,5 @@
 from .classes_common_lib import full_symbolic_class_decoration
-from .classes_base import symbolic_basic
+from .classes_abstract_base import symbolic_basic
 
 @full_symbolic_class_decoration
 class variable(symbolic_basic):

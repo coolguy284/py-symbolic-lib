@@ -1,5 +1,5 @@
 from .classes_common_lib import full_symbolic_class_decoration
-from .classes_base import symbolic_operator
+from .classes_abstract_base import symbolic_operator
 
 @full_symbolic_class_decoration
 class additive_group(symbolic_operator):
@@ -80,6 +80,45 @@ class multiplicative_group(symbolic_operator):
     return cls.from_iterable(iterable)
 
 @full_symbolic_class_decoration
+class unary_minus(symbolic_operator):
+  '''
+    py-symbolic-lib: unary_minus
+    
+    This class is to handle taking the unary minus of an expression, like so:
+    
+    >>> -variables.x
+    unary_minus(variable('x'))
+  '''
+  
+  __slots__ = 'element',
+  
+  @classmethod
+  def from_value(cls, element):
+    unary_minus_object = super(unary_minus, cls).__new__(cls)
+    
+    unary_minus_object.element = element
+    
+    return unary_minus_object
+  
+  def to_string_repr(self):
+    return f'unary_minus({self.element.to_string_repr()})'
+  
+  def to_string_basic_textual(self):
+    return f'-{self.element.to_string_basic_textual()}'
+  
+  def to_string_latex(self):
+    return f'-{self.element.to_string_latex()}'
+  
+  def get_element(self):
+    return self.element
+  
+  def get_hashable_form(self):
+    return 'unary_minus', self.element
+  
+  def __new__(cls, element):
+    return cls.from_value(element)
+
+@full_symbolic_class_decoration
 class fraction(symbolic_operator):
   '''
     py-symbolic-lib: fraction
@@ -110,7 +149,7 @@ class fraction(symbolic_operator):
   def to_string_latex(self):
     return f'\\frac{{{self.numerator.to_string_latex()}}}{{{self.denominator.to_string_latex()}}}'
   
-  def get_values(self):
+  def get_elements(self):
     return self.numerator, self.denominator
   
   def get_hashable_form(self):
@@ -150,7 +189,7 @@ class exponential(symbolic_operator):
   def to_string_latex(self):
     return f'{self.base.to_string_latex()}^{{{self.exponent.to_string_latex()}}}'
   
-  def get_values(self):
+  def get_elements(self):
     return self.base, self.exponent
   
   def get_hashable_form(self):

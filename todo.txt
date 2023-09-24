@@ -5,6 +5,5 @@ add proper annotated types
 make the from_ methods memoized as well, using a raw creation version
 fix adding parenthesis around fractions printing if num or denom is more than 1 element long
   put parentheses around other composite objects' textual output where due as well
-unary minus obj
 unary plus minus obj
 many solutions object, ie x=2 and x=6 (basically an and group)

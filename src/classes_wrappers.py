@@ -1,5 +1,5 @@
 from .classes_common_lib import full_symbolic_class_decoration
-from .classes_base import symbolic_wrapper
+from .classes_abstract_base import symbolic_wrapper
 
 @full_symbolic_class_decoration
 class integer(symbolic_wrapper):
