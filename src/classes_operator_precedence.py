@@ -43,7 +43,6 @@ def _parenthesis_if_lower_precedence_should_do_parenthesis(object_outer, object_
   
   if type(object_outer) is classes.exponential and type(object_inner) is classes.exponential:
     if exponential_exponent:
-      print('el')
       return _operator_precedence_exponential_exponent_add_parens_for_exponential
     else:
       return _operator_precedence_exponential_base_add_parens_for_exponential

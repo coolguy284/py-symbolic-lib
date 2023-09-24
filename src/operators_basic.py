@@ -9,12 +9,12 @@ def operator_add(object_one, object_two):
   
   if isinstance(object_one, classes.additive_group):
     if isinstance(object_two, classes.additive_group):
-      return classes.additive_group(*object_one.get_items(), *object_two.get_items())
+      return classes.additive_group(*object_one.get_elements(), *object_two.get_elements())
     else:
-      return classes.additive_group(*object_one.get_items(), object_two)
+      return classes.additive_group(*object_one.get_elements(), object_two)
   else:
     if isinstance(object_two, classes.additive_group):
-      return classes.additive_group(object_one, *object_two.get_items())
+      return classes.additive_group(object_one, *object_two.get_elements())
     else:
       return classes.additive_group(object_one, object_two)
 
@@ -28,12 +28,12 @@ def operator_mul(object_one, object_two):
   
   if isinstance(object_one, classes.multiplicative_group):
     if isinstance(object_two, classes.multiplicative_group):
-      return classes.multiplicative_group(*object_one.get_items(), *object_two.get_items())
+      return classes.multiplicative_group(*object_one.get_elements(), *object_two.get_elements())
     else:
-      return classes.multiplicative_group(*object_one.get_items(), object_two)
+      return classes.multiplicative_group(*object_one.get_elements(), object_two)
   else:
     if isinstance(object_two, classes.multiplicative_group):
-      return classes.multiplicative_group(object_one, *object_two.get_items())
+      return classes.multiplicative_group(object_one, *object_two.get_elements())
     else:
       return classes.multiplicative_group(object_one, object_two)
 

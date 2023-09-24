@@ -1,12 +1,19 @@
 main items:
-textual representation for additive group should automatically put a minus instead of a plus if the element is a unary minus, but make this behavior an optional argument defaulting to true
+tidy up imports
+default to string function should have params for multiplication_compact, addition_compact, defaulting to false, exponential compact defaulting to true; to string compact just calls default to string with all args set to true
+to string latex should treat characters in a variable name after the first as subscript, except for special variables that are a function that have a latex escape (like sin, cos, ln)
 add substitute function, as function for each class, to substitute a variable for something else
 add relational operators
 add function calls
 if multiplicative group only has single letter variables and other stuff, dont put * between characters (this is an optional parameter defaulting to true) (do this on at least the latex string representation)
   but still put * symbol before a function call if doing so
+add sqrt object, nthroot object (and simplification rule to convert to sqrt if n=2), function call object
+  add special variables variable type, for variables with a behavior attached (like hyperreal numbers, sin, cos, ln, i, etc.)
+  add d/dx, integral, limit, summation, productation objects
 unary plus minus obj
 many solutions object, ie x=2 and x=6 (basically an and group)
+factor simplification or distribution simplification
+  prime factor simplification option to be even more factorized
 
 low priority:
 convert most star imports to more specific

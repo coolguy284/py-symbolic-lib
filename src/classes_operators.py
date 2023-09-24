@@ -1,6 +1,7 @@
 from .classes_common_lib import full_symbolic_class_decoration
 from .classes_abstract_base import symbolic_operator
 from . import classes_operator_precedence
+from .classes_wrappers import integer
 
 @full_symbolic_class_decoration
 class additive_group(symbolic_operator):
@@ -28,31 +29,82 @@ class additive_group(symbolic_operator):
     return cls.__new__(cls, iterable)
   
   def to_string_repr(self):
-    return 'additive_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
+    return 'additive_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_elements())) + ')'
   
-  def to_string_basic(self):
-    return ' + '.join(map(
-      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic()),
-      self.get_items()
-    ))
+  def to_string_basic(self, do_minus_for_unary_minuses = True, do_minus_for_negative_integers = True):
+    string_output = ''
+    
+    for element in self.get_elements():
+      if len(string_output) == 0:
+        string_output += element.to_string_basic()
+      else:
+        if do_minus_for_unary_minuses and isinstance(element, unary_minus):
+          string_output += ' - '
+          string_output += element.get_element().to_string_basic()
+        elif do_minus_for_negative_integers and isinstance(element, integer):
+          if element.get_value() < 0:
+            string_output += ' - '
+            string_output += integer(-element.get_value()).to_string_basic()
+          else:
+            string_output += ' + '
+            string_output += element.to_string_basic()
+        else:
+          string_output += ' + '
+          string_output += element.to_string_basic()
+    
+    return string_output
   
-  def to_string_compact(self):
-    return '+'.join(map(
-      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_compact()),
-      self.get_items()
-    ))
+  def to_string_compact(self, do_minus_for_unary_minuses = True, do_minus_for_negative_integers = True):
+    string_output = ''
+    
+    for element in self.get_elements():
+      if len(string_output) == 0:
+        string_output += element.to_string_compact()
+      else:
+        if do_minus_for_unary_minuses and isinstance(element, unary_minus):
+          string_output += '-'
+          string_output += element.get_element().to_string_compact()
+        elif do_minus_for_negative_integers and isinstance(element, integer):
+          if element.get_value() < 0:
+            string_output += '-'
+            string_output += integer(-element.get_value()).to_string_compact()
+          else:
+            string_output += '+'
+            string_output += element.to_string_compact()
+        else:
+          string_output += '+'
+          string_output += element.to_string_compact()
+    
+    return string_output
   
-  def to_string_latex(self):
-    return '+'.join(map(
-      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_latex(), latex = True),
-      self.get_items()
-    ))
+  def to_string_latex(self, do_minus_for_unary_minuses = True, do_minus_for_negative_integers = True):
+    string_output = ''
+    
+    for element in self.get_elements():
+      if len(string_output) == 0:
+        string_output += element.to_string_latex()
+      else:
+        if do_minus_for_unary_minuses and isinstance(element, unary_minus):
+          string_output += '-'
+          string_output += element.get_element().to_string_latex()
+        elif do_minus_for_negative_integers and isinstance(element, integer):
+          if element.get_value() < 0:
+            string_output += '-'
+            string_output += integer(-element.get_value()).to_string_latex()
+          else:
+            string_output += '+'
+            string_output += element.to_string_latex()
+        else:
+          string_output += '+'
+          string_output += element.to_string_latex()
+    
+    return string_output
   
-  def get_items(self):
+  def get_elements(self):
     return self.elements
   
   def get_hashable_form(self):
-    return 'additive_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
+    return 'additive_group', tuple(map(lambda x: x.get_hashable_form(), self.get_elements()))
   
   def __new__(cls, *iterable):
     return cls._raw_from_iterable(iterable)
@@ -83,31 +135,31 @@ class multiplicative_group(symbolic_operator):
     return cls.__new__(cls, iterable)
   
   def to_string_repr(self):
-    return 'multiplicative_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
+    return 'multiplicative_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_elements())) + ')'
   
   def to_string_basic(self):
     return ' * '.join(map(
       lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic()),
-      self.get_items()
+      self.get_elements()
     ))
   
   def to_string_compact(self):
     return '*'.join(map(
       lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_compact()),
-      self.get_items()
+      self.get_elements()
     ))
   
   def to_string_latex(self):
     return '\\cdot '.join(map(
       lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_latex(), latex = True),
-      self.get_items()
+      self.get_elements()
     ))
   
-  def get_items(self):
+  def get_elements(self):
     return self.elements
   
   def get_hashable_form(self):
-    return 'multiplicative_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
+    return 'multiplicative_group', tuple(map(lambda x: x.get_hashable_form(), self.get_elements()))
   
   def __new__(cls, *iterable):
     return cls._raw_from_iterable(iterable)
@@ -163,7 +215,7 @@ class fraction(symbolic_operator):
   '''
     py-symbolic-lib: fraction
     
-    This class is to handle many symbols / expressions multiplied together, like so:
+    This class is to handle a numerator divided by a denominator, like so:
     
     >>> variables.x / variables.y
     fraction(variable('x'), variable('y'))
