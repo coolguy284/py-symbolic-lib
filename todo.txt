@@ -1,5 +1,6 @@
 main items:
 tidy up imports
+make things like elements, numerator, denominator, etc. into getter properties, accessing an underscore variable that is now the real variable
 default to string function should have params for multiplication_compact, addition_compact, defaulting to false, exponential compact defaulting to true; to string compact just calls default to string with all args set to true
 to string latex should treat characters in a variable name after the first as subscript, except for special variables that are a function that have a latex escape (like sin, cos, ln)
 add substitute function, as function for each class, to substitute a variable for something else
