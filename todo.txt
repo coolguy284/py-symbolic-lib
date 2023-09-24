@@ -1,9 +1,11 @@
 main items:
-add relational operators
-convert most star imports to more specific
-add proper annotated types
+add compact string representation function
 make the from_ methods memoized as well, using a raw creation version
-fix adding parenthesis around fractions printing if num or denom is more than 1 element long
-  put parentheses around other composite objects' textual output where due as well
+add substitute function, as function for each class, to substitute a variable for something else
+add relational operators
 unary plus minus obj
 many solutions object, ie x=2 and x=6 (basically an and group)
+
+low priority:
+convert most star imports to more specific
+add proper annotated types

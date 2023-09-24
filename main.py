@@ -18,7 +18,15 @@ print_all_representations(integer(-1))
 print_all_representations(x * y - z)
 print_all_representations(x**2 - 2 * x - 4)
 print_all_representations(2**x**2 - 2)
-print_all_representations((2 * x + 1) / (y - 4))
+print_all_representations((2**x)**2 - 2)
+expr = (2 * x + 1) / (y - 4)
+print_all_representations(expr)
 
 print(x is x)
 print(variables.x is variables.x)
+print()
+
+from src.operators_common_lib import operator_valid_types
+
+for i in operator_valid_types:
+  print(i.__name__, dict(i._instance_dict), sep = ': ')
