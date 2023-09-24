@@ -42,7 +42,7 @@ class additive_group(symbolic_operator):
     return self.elements
   
   def get_hashable_form(self):
-    return 'additive_group', self.elements
+    return 'additive_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
   
   def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
@@ -87,7 +87,7 @@ class multiplicative_group(symbolic_operator):
     return self.elements
   
   def get_hashable_form(self):
-    return 'multiplicative_group', self.elements
+    return 'multiplicative_group', tuple(map(lambda x: x.get_hashable_form(), self.elements))
   
   def __new__(cls, *iterable):
     return cls.from_iterable(iterable)
@@ -126,7 +126,7 @@ class unary_minus(symbolic_operator):
     return self.element
   
   def get_hashable_form(self):
-    return 'unary_minus', self.element
+    return 'unary_minus', self.element.get_hashable_form()
   
   def __new__(cls, element):
     return cls.from_value(element)
@@ -169,7 +169,7 @@ class fraction(symbolic_operator):
     return self.numerator, self.denominator
   
   def get_hashable_form(self):
-    return 'fraction', self.numerator, self.denominator
+    return 'fraction', self.numerator.get_hashable_form(), self.denominator.get_hashable_form()
   
   def __new__(cls, numerator, denominator):
     return cls.from_values(numerator, denominator)
@@ -213,7 +213,7 @@ class exponential(symbolic_operator):
     return self.base, self.exponent
   
   def get_hashable_form(self):
-    return 'exponential', self.base, self.exponent
+    return 'exponential', self.base.get_hashable_form(), self.exponent.get_hashable_form()
   
   def __new__(cls, base, exponent):
     return cls.from_values(base, exponent)

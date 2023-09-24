@@ -29,6 +29,7 @@ def full_symbolic_class_decoration(cls):
   def cls_hash(self):
     return hash(self.get_hashable_form())
   
+  cls.hash = cls_hash
   cls.__hash__ = cls_hash
     
   # implement memoization

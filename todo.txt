@@ -1,5 +1,5 @@
 main items:
-add compact string representation function
+add compact string representation function, rename basic_textual to just basic
 make the from_ methods memoized as well, using a raw creation version
 add substitute function, as function for each class, to substitute a variable for something else
 add relational operators

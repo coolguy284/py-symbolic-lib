@@ -22,6 +22,9 @@ print_all_representations((2**x)**2 - 2)
 expr = (2 * x + 1) / (y - 4)
 print_all_representations(expr)
 
+print(expr.get_hashable_form())
+print()
+
 print(x is x)
 print(variables.x is variables.x)
 print()
