@@ -12,8 +12,11 @@ def full_symbolic_class_decoration(cls):
   if not hasattr(cls, 'to_string_repr'):
     raise Exception(f'to_string_repr not found on class {cls.__name__}')
   
-  if not hasattr(cls, 'to_string_basic_textual'):
-    raise Exception(f'to_string_basic_textual not found on class {cls.__name__}')
+  if not hasattr(cls, 'to_string_basic'):
+    raise Exception(f'to_string_basic not found on class {cls.__name__}')
+  
+  if not hasattr(cls, 'to_string_compact'):
+    raise Exception(f'to_string_compact not found on class {cls.__name__}')
   
   if not hasattr(cls, 'to_string_latex'):
     raise Exception(f'to_string_latex not found on class {cls.__name__}')
@@ -24,7 +27,7 @@ def full_symbolic_class_decoration(cls):
   # bind some dunder methods
   
   cls.__repr__ = cls.to_string_repr
-  cls.__str__ = cls.to_string_basic_textual
+  cls.__str__ = cls.to_string_basic
   
   def cls_hash(self):
     return hash(self.get_hashable_form())

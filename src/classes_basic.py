@@ -22,7 +22,10 @@ class variable(symbolic_basic):
   def to_string_repr(self):
     return f'variable(\'{self.variable_name}\')'
   
-  def to_string_basic_textual(self):
+  def to_string_basic(self):
+    return self.variable_name
+  
+  def to_string_compact(self):
     return self.variable_name
   
   def to_string_latex(self):

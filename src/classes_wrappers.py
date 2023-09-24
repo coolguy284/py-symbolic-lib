@@ -22,7 +22,10 @@ class integer(symbolic_wrapper):
   def to_string_repr(self):
     return f'integer({self.value})'
   
-  def to_string_basic_textual(self):
+  def to_string_basic(self):
+    return repr(self.value)
+  
+  def to_string_compact(self):
     return repr(self.value)
   
   def to_string_latex(self):

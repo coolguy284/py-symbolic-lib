@@ -26,9 +26,15 @@ class additive_group(symbolic_operator):
   def to_string_repr(self):
     return 'additive_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
   
-  def to_string_basic_textual(self):
+  def to_string_basic(self):
     return ' + '.join(map(
-      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic_textual()),
+      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic()),
+      self.get_items()
+    ))
+  
+  def to_string_compact(self):
+    return '+'.join(map(
+      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_compact()),
       self.get_items()
     ))
   
@@ -71,9 +77,15 @@ class multiplicative_group(symbolic_operator):
   def to_string_repr(self):
     return 'multiplicative_group(' + ', '.join(map(lambda x: x.to_string_repr(), self.get_items())) + ')'
   
-  def to_string_basic_textual(self):
+  def to_string_basic(self):
     return ' * '.join(map(
-      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic_textual()),
+      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_basic()),
+      self.get_items()
+    ))
+  
+  def to_string_compact(self):
+    return '*'.join(map(
+      lambda x: classes_operator_precedence._parenthesis_if_lower_precedence(self, x, x.to_string_compact()),
       self.get_items()
     ))
   
@@ -116,8 +128,11 @@ class unary_minus(symbolic_operator):
   def to_string_repr(self):
     return f'unary_minus({self.element.to_string_repr()})'
   
-  def to_string_basic_textual(self):
-    return f'-{classes_operator_precedence._parenthesis_if_lower_precedence(self, self.element, self.element.to_string_basic_textual())}'
+  def to_string_basic(self):
+    return f'-{classes_operator_precedence._parenthesis_if_lower_precedence(self, self.element, self.element.to_string_basic())}'
+  
+  def to_string_compact(self):
+    return f'-{classes_operator_precedence._parenthesis_if_lower_precedence(self, self.element, self.element.to_string_compact())}'
   
   def to_string_latex(self):
     return f'-{classes_operator_precedence._parenthesis_if_lower_precedence(self, self.element, self.element.to_string_latex(), latex = True)}'
@@ -156,10 +171,15 @@ class fraction(symbolic_operator):
   def to_string_repr(self):
     return f'fraction({self.numerator.to_string_repr()}, {self.denominator.to_string_repr()})'
   
-  def to_string_basic_textual(self):
-    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.numerator, self.numerator.to_string_basic_textual()) + \
+  def to_string_basic(self):
+    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.numerator, self.numerator.to_string_basic()) + \
       ' / ' + \
-      classes_operator_precedence._parenthesis_if_lower_precedence(self, self.denominator, self.denominator.to_string_basic_textual())
+      classes_operator_precedence._parenthesis_if_lower_precedence(self, self.denominator, self.denominator.to_string_basic())
+  
+  def to_string_compact(self):
+    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.numerator, self.numerator.to_string_compact()) + \
+      '/' + \
+      classes_operator_precedence._parenthesis_if_lower_precedence(self, self.denominator, self.denominator.to_string_compact())
   
   def to_string_latex(self):
     return f'\\frac{{{classes_operator_precedence._parenthesis_if_lower_precedence(self, self.numerator, self.numerator.to_string_latex(), latex = True)}}}' + \
@@ -199,10 +219,15 @@ class exponential(symbolic_operator):
   def to_string_repr(self):
     return f'exponential({self.base.to_string_repr()}, {self.exponent.to_string_repr()})'
   
-  def to_string_basic_textual(self):
-    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.base, self.base.to_string_basic_textual()) + \
+  def to_string_basic(self):
+    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.base, self.base.to_string_basic()) + \
     '^' + \
-    classes_operator_precedence._parenthesis_if_lower_precedence(self, self.exponent, self.exponent.to_string_basic_textual(), exponential_exponent = True)
+    classes_operator_precedence._parenthesis_if_lower_precedence(self, self.exponent, self.exponent.to_string_basic(), exponential_exponent = True)
+  
+  def to_string_compact(self):
+    return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.base, self.base.to_string_compact()) + \
+    '^' + \
+    classes_operator_precedence._parenthesis_if_lower_precedence(self, self.exponent, self.exponent.to_string_compact(), exponential_exponent = True)
   
   def to_string_latex(self):
     return classes_operator_precedence._parenthesis_if_lower_precedence(self, self.base, self.base.to_string_latex(), latex = True) + \

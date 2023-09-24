@@ -3,6 +3,7 @@ from src import *
 def print_all_representations(symbolic_object):
   print(repr(symbolic_object))
   print(str(symbolic_object))
+  print(symbolic_object.to_string_compact())
   print(symbolic_object.to_string_latex())
   print()
 

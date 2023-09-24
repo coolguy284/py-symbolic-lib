@@ -1,11 +1,16 @@
 main items:
-add compact string representation function, rename basic_textual to just basic
 make the from_ methods memoized as well, using a raw creation version
+textual representation for additive group should automatically put a minus instead of a plus if the element is a unary minus, but make this behavior an optional argument defaulting to true
 add substitute function, as function for each class, to substitute a variable for something else
 add relational operators
+add function calls
+if multiplicative group only has single letter variables and other stuff, dont put * between characters (this is an optional parameter defaulting to true) (do this on at least the latex string representation)
+  but still put * symbol before a function call if doing so
 unary plus minus obj
 many solutions object, ie x=2 and x=6 (basically an and group)
 
 low priority:
 convert most star imports to more specific
 add proper annotated types
+remove check for required methods if debug mode not on
+
