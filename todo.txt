@@ -1,11 +1,24 @@
 main items:
+type check constructor calls (so the raw from function in this case, and attempt autoconversion for integer, error in any other case that isnt an instance of symbolic object)
+  already have an attempt conversion to symbolic type function, might as well use it
+    speaking of which, the autoconvert function should automatically convert python fraction objects, and python decimal objects (for now represented as an int/int fraction)
+      add from hashable form function, or have support for it in constructor (so basically support for it in autoconvert function)
 tidy up imports
 make things like elements, numerator, denominator, etc. into getter properties, accessing an underscore variable that is now the real variable
 default to string function should have params for multiplication_compact, addition_compact, defaulting to false, exponential compact defaulting to true; to string compact just calls default to string with all args set to true
 to string latex should treat characters in a variable name after the first as subscript, except for special variables that are a function that have a latex escape (like sin, cos, ln)
 add substitute function, as function for each class, to substitute a variable for something else
+  however it should be able to substitute many variables simultaneously, otherwise it is impossible to swap 2 variables without using a temp variable
+  also maybe support substituting expressions as well, which means an true equivalency checker is needed
+    true equivalency will most likely be implemented as __bool__ of an equivalency object
+add evaluate function that either actually evaluates or just returns an evaluation object, as in [something]|x=2
 add relational operators
 add function calls
+add ndmatrix type
+  n dimensional matrix
+  goes from 0 which is scalar, 1 is vector, 2 is matrix, so on
+add factorial operator
+add abs operator
 if multiplicative group only has single letter variables and other stuff, dont put * between characters (this is an optional parameter defaulting to true) (do this on at least the latex string representation)
   but still put * symbol before a function call if doing so
 add sqrt object, nthroot object (and simplification rule to convert to sqrt if n=2), function call object
@@ -15,9 +28,23 @@ unary plus minus obj
 many solutions object, ie x=2 and x=6 (basically an and group)
 factor simplification or distribution simplification
   prime factor simplification option to be even more factorized
+default off arg to from for fraction to convert float exactly into fraction
+  if off error
+check sym math render of -(x + 2) vs -(x * 2), including when encased in additive group
+v short for variables object
+functions object, short form f, that is used to get symbolic sin, cos, etc
 
 low priority:
 convert most star imports to more specific
 add proper annotated types
 remove check for required methods if debug mode not on
 clean up class creation functions
+
+add hyperreal and matrix type as seperate things that can work with symbolic lib
+also unoverflowable number type that is designed to hold very large or very small or normal scale numbers, seamlessly applying logs or not
+  so internally stores an amount of base 2 logs applied to the internal value, can be 0, 1, 2, etc.
+  when the decimal type will go over emax it adds another log
+  can support sin and cos
+
+sin and cos functions that will do regular math.sin or will call hyperreal specific or unoverflowable specific sin or cos
+  for hyperreals btw just use taylor series, although it might get messy
